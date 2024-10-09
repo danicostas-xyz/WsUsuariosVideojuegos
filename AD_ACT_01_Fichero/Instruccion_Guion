@@ -1,0 +1,15 @@
+Analizar entidades. Videojuego. -> Lo hacemos en grupo
+Gestor Videojuego -> 
+DaoVideojuego. -> Daniel
+Complementar interfaz Videojuego. -> Si os si hay que modificar
+
+La entidad videojuego solo va a tener los atributos, los getter y setter el metodo equals
+el metodo toString y listo
+
+El modelo de persistencia se encarga de persistir los videojuegos en un txt. y el metodo para encontrar el 
+nombre del videogame, metodo borrar, y luego se decidira que se hace con eso 
+
+El modelo de negocio se va encargar de avisar el borrado del videogame y los requisitos para su guardado, es decir, 
+numero de letras, espacios en blanco...
+
+Interfaz tendrá que ser modificada.
