@@ -107,6 +107,7 @@ public class GestorVideojuego {
 	 * @return arrayList de videojuegos
 	 */
 	public ArrayList<Videojuego> mostrar() {
+		dvf = new DaoVideojuegoFichero();
 		ArrayList<Videojuego> lista = null;
 		try {
 			lista = dvf.getListaVideojuegos();
