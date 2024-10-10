@@ -1,5 +1,6 @@
 package interfaz;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import modelo.entidad.Usuario;
@@ -84,6 +85,7 @@ public class InterfazUsuario {
 	private void borrarVideojuego() {
 		System.out.println("Que videojuego deseas borrar");
 		Videojuego videojuego = pedirDatosVideojuego();
+		gv = new GestorVideojuego();
 		int opcion = gv.borrar(videojuego);
 		switch (opcion) {
 		case 0:
@@ -91,7 +93,7 @@ public class InterfazUsuario {
 			break;
 		case 1:
 			System.out.println("El videojuego se ha borrado correctamente"
-					+ "FELICIDADES!!!!!!");
+					+ " FELICIDADES!!!!!!");
 			break;
 		case 2:
 			System.out.println("El videojuego existe pero no es valido");
@@ -106,12 +108,34 @@ public class InterfazUsuario {
 	}
 
 	private void mostrarListaVideojuegos() {
+		gv = new GestorVideojuego();
+		ArrayList<Videojuego>listaVideojuegos = new ArrayList<Videojuego>();
+		listaVideojuegos = gv.mostrar();
 		
-		
+		System.out.println("========================================");
+		System.out.println("         Lista de Videojuegos           ");
+		System.out.println("========================================");
+
+		int contador = 1;
+		for (Videojuego videojuego : listaVideojuegos) {
+		    System.out.println(" Videojuego #" + contador + ":");
+		    System.out.println("   Nombre:      " + videojuego.getNombre());
+		    System.out.println("   Compañía:    " + videojuego.getCompania());
+		    System.out.println("   Nota:        " + videojuego.getNota() + "/100");
+		    System.out.println("----------------------------------------");
+		    contador++;
+		}
+
+		if (listaVideojuegos.isEmpty()) {
+		    System.out.println(" No hay videojuegos en la lista.");
+		}
+		System.out.println("========================================");
+	
 	}
 
 	private void darAltaVideojuego() {
 		Videojuego videojuego = pedirDatosVideojuego();
+		gv = new GestorVideojuego();
 		int respuesta = gv.guardar(videojuego);
 		switch (respuesta) {
 		case 1:
@@ -158,24 +182,32 @@ public class InterfazUsuario {
 
 	private int menu() {
 		boolean correcto = false;
-		int opcion = 0;
+		String opcion = null;
+		int iOpcion = 0;
 		while(!correcto) {
 			System.out.println("              MENÚ PRINCIPAL");
 			System.out.println("========================================");
 			System.out.println("| 1. Registar Usuario                  |");
 			System.out.println("| 2. Agregar Videojuego                |");
 			System.out.println("| 3. Lista Videojuego                  |");
-			System.out.println("| 4. Borrar Videojuego                  |");
+			System.out.println("| 4. Borrar Videojuego                 |");
 			System.out.println("========================================");
 			System.out.println("| 0. Salir del prograna                |");
 			System.out.println("========================================");
 			System.out.print("Selecciona una opción: ");
-			opcion = sc.nextInt();
-			if(opcion >= 0 && opcion <= 4) {
-				correcto = true;
+			opcion = scString.nextLine();
+			try {
+				iOpcion = Integer.parseInt(opcion);
+				if(iOpcion >= 0 && iOpcion <= 4) {
+					correcto = true;
+				}else {
+					System.out.println("Opcion incorrecta");
+				}
+			} catch (Exception e) {
+				System.out.println("Felix no cuela ya");
 			}
 		}		
-		return opcion;
+		return iOpcion;
 	}
 
 	private Usuario pedirDatos() {
@@ -189,7 +221,7 @@ public class InterfazUsuario {
 		return u;
 	}
 	private Videojuego pedirDatosVideojuego() {
-		System.out.println("Intrduzca el nombre del Videojuego");
+		System.out.println("Introduzca el nombre del Videojuego");
 		String nombre = scString.nextLine();
 		System.out.println("Introduce el nombre de la Compañia");
 		String nombreCompania = scString.nextLine();
