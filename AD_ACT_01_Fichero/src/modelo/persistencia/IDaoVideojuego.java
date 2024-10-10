@@ -10,6 +10,6 @@ public interface IDaoVideojuego {
 
 	ArrayList<Videojuego> getListaVideojuegos() throws Exception;
 
-	boolean borrarVideojuego(Videojuego vj);
+	boolean borrarVideojuego(Videojuego vj) throws Exception;
 	
 }

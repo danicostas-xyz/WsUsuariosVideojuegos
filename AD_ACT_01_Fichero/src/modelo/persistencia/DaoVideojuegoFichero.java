@@ -6,7 +6,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
-
 import modelo.entidad.Videojuego;
 
 public class DaoVideojuegoFichero implements IDaoVideojuego {
@@ -15,10 +14,9 @@ public class DaoVideojuegoFichero implements IDaoVideojuego {
 
 	/**
 	 * Método que registra un videojuego en la persistencia
-	 * 
+	 *
 	 * @param vj es el videojuego a registrar
 	 * @throws Exception si hay algún problema con el fichero
-	 * 
 	 */
 	@Override
 	public void registrar(Videojuego vj) throws Exception {
@@ -41,10 +39,9 @@ public class DaoVideojuegoFichero implements IDaoVideojuego {
 	/**
 	 * Método que devuelve un ArrayList de Videojuegos con los Videojuegos que
 	 * existan en la persistencia
-	 * 
+	 *
 	 * @return listaVideojuegos es un ArrayList de Videojuego
 	 * @throws Exception en caso de que suceda un error en la lectura del fichero
-	 * 
 	 */
 	@Override
 	public ArrayList getListaVideojuegos() throws Exception {
@@ -76,9 +73,53 @@ public class DaoVideojuegoFichero implements IDaoVideojuego {
 
 	}
 
+	/**
+	 * Método que dado un nombre pasado por parametro busca su coincidencia en el
+	 * fichero "videojuegos.txt" y en caso de que lo encuentre lo devuelve junto con
+	 * su compañía y su nota
+	 *
+	 * @param nombre el nombre a buscar en el fichero
+	 * @return Videojuego en caso de que este en en fichero, null en caso contrario
+	 * @throws Exception, en caso de que haya algún problema en el fichero de
+	 *                    entrada salida
+	 */
+	public Videojuego getByName(String nombre) throws Exception {
+		Videojuego vj = null;
+
+		try (FileReader fr = new FileReader(NOMBRE_FICHERO); BufferedReader br = new BufferedReader(fr)) {
+			String cadena = br.readLine();// NOMBRE_COMPANIA_NOTA
+			while (cadena != null) {
+				if (nombre.equals(cadena.split("/")[0])) {
+					vj = new Videojuego();
+					vj.setNombre(cadena.split("/")[0]);
+					vj.setCompania(cadena.split("/")[1]);
+					vj.setNota(Integer.parseInt(cadena.split("/")[2]));
+
+					return vj;
+				}
+				cadena = br.readLine();
+			}
+			return null;
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+
 	@Override
-	public boolean borrarVideojuego(Videojuego vj) {
-		// TODO Auto-generated method stub
+	public boolean borrarVideojuego(Videojuego vj) throws Exception {
+
+		try (FileReader fr = new FileReader(NOMBRE_FICHERO); BufferedReader br = new BufferedReader(fr)) {
+
+			String linea = br.readLine();
+
+			while (linea != null) {
+
+			}
+
+		} catch (Exception e) {
+			throw e;
+		}
+
 		return false;
 	}
 
