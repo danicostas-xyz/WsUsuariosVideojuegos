@@ -78,6 +78,8 @@ public class DaoUsuarioFichero {
 	 * @throws NoSuchAlgorithmException en caso de que no se haya podido ejecutar el
 	 *                                  algoritmo criptográfico
 	 */
+	
+	@SuppressWarnings("unused") // Unused temporally 
 	private String hashPass(String pass) throws NoSuchAlgorithmException {
 
 		MessageDigest md = MessageDigest.getInstance("SHA-256");
