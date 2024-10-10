@@ -1,5 +1,7 @@
 package modelo.negocio;
 
+import java.util.ArrayList;
+
 import modelo.entidad.Usuario;
 import modelo.entidad.Videojuego;
 import modelo.persistencia.DaoUsuarioFichero;
@@ -98,6 +100,17 @@ public class GestorVideojuego {
 		} catch (Exception e) { 
 			return 666;
 		}
+		
+	}
+	public ArrayList mostrar() {
+		ArrayList<Videojuego> lista = null;
+		try {
+			lista = dvf.getListaVideojuegos();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return lista;
 		
 	}
 
