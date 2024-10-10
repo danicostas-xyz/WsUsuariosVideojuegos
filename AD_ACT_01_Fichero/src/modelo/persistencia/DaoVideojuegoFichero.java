@@ -44,7 +44,7 @@ public class DaoVideojuegoFichero implements IDaoVideojuego {
 	 * @throws Exception en caso de que suceda un error en la lectura del fichero
 	 */
 	@Override
-	public ArrayList getListaVideojuegos() throws Exception {
+	public ArrayList<Videojuego> getListaVideojuegos() throws Exception {
 
 		try (FileReader fr = new FileReader(NOMBRE_FICHERO); BufferedReader br = new BufferedReader(fr)) {
 
@@ -89,11 +89,11 @@ public class DaoVideojuegoFichero implements IDaoVideojuego {
 		try (FileReader fr = new FileReader(NOMBRE_FICHERO); BufferedReader br = new BufferedReader(fr)) {
 			String cadena = br.readLine();// NOMBRE_COMPANIA_NOTA
 			while (cadena != null) {
-				if (nombre.equals(cadena.split("/")[0])) {
+				if (nombre.equals(cadena.split("_")[0])) {
 					vj = new Videojuego();
-					vj.setNombre(cadena.split("/")[0]);
-					vj.setCompania(cadena.split("/")[1]);
-					vj.setNota(Integer.parseInt(cadena.split("/")[2]));
+					vj.setNombre(cadena.split("_")[0]);
+					vj.setCompania(cadena.split("_")[1]);
+					vj.setNota(Integer.parseInt(cadena.split("_")[2]));
 
 					return vj;
 				}
@@ -105,22 +105,50 @@ public class DaoVideojuegoFichero implements IDaoVideojuego {
 		}
 	}
 
+	/**
+	 * Método que dado un Videojuego pasado por parámetro, lo busca en la
+	 * persistencia y, en caso de que exista, lo elimina.
+	 * 
+	 * @param videojuegoABorrar el Videojuego a buscar en fichero
+	 * @return
+	 *         <ul>
+	 *         <li><b>true</b> en caso de que el Videojuego exista y se borre</li>
+	 *         <li><b>false</b> en caso de que no se borre porque no exista</li>
+	 *         </ul>
+	 * @throws Exception en caso de que ocurra algún error con el fichero
+	 * 
+	 */
 	@Override
-	public boolean borrarVideojuego(Videojuego vj) throws Exception {
+	public boolean borrarVideojuego(Videojuego videojuegoABorrar) throws Exception {
 
-		try (FileReader fr = new FileReader(NOMBRE_FICHERO); BufferedReader br = new BufferedReader(fr)) {
+		ArrayList<Videojuego> listaVideojuegos = getListaVideojuegos();
+		ArrayList<Videojuego> listaVideojuegosModificada = listaVideojuegos;
 
-			String linea = br.readLine();
+		boolean resultado = listaVideojuegosModificada.remove(videojuegoABorrar);
 
-			while (linea != null) {
+		File f = new File(NOMBRE_FICHERO);
 
+		if (resultado) {
+			if (!f.exists()) {
+				throw new Exception("Error con fichero. Inténtelo de nuevo más tarde");
+			} else {
+				f.delete();
+				for (Videojuego vj : listaVideojuegosModificada) {
+
+					try (FileWriter fw = new FileWriter(NOMBRE_FICHERO, true);
+							BufferedWriter bw = new BufferedWriter(fw)) {
+
+						bw.write(vj.toString());
+						bw.newLine();
+					} catch (Exception e) {
+						throw e;
+					}
+				}
 			}
-
-		} catch (Exception e) {
-			throw e;
 		}
 
-		return false;
+		return resultado;
+
 	}
 
 }
