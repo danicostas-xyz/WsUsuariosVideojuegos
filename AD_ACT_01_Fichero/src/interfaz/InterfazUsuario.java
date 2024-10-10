@@ -5,10 +5,12 @@ import java.util.Scanner;
 import modelo.entidad.Usuario;
 import modelo.entidad.Videojuego;
 import modelo.negocio.GestorUsuario;
+import modelo.negocio.GestorVideojuego;
 
 public class InterfazUsuario {
 
 	private GestorUsuario gu = null;
+	private GestorVideojuego gv = null;
 	private Scanner scString = new Scanner(System.in);
 	private Scanner sc = new Scanner(System.in);
 
@@ -80,19 +82,38 @@ public class InterfazUsuario {
 	}
 
 	private void borrarVideojuego() {
-		// TODO Auto-generated method stub
+		System.out.println("Que videojuego deseas borrar");
+		Videojuego videojuego = pedirDatosVideojuego();
+		int opcion = gv.borrar(videojuego);
+		switch (opcion) {
+		case 0:
+			System.out.println("El videojuego no existe muñón");
+			break;
+		case 1:
+			System.out.println("El videojuego se ha borrado correctamente"
+					+ "FELICIDADES!!!!!!");
+			break;
+		case 2:
+			System.out.println("El videojuego existe pero no es valido");
+	        break;
+		case 666:
+			System.err.println("Ha ocurrido un ERROR");
+			break;
+		default:
+			break;
+		}
 		
 	}
 
 	private void mostrarListaVideojuegos() {
-		// TODO Auto-generated method stub
+		
 		
 	}
 
 	private void darAltaVideojuego() {
 		Videojuego videojuego = pedirDatosVideojuego();
-		// int respuesta = ...........;
-		/*switch (respuesta) {
+		int respuesta = gv.guardar(videojuego);
+		switch (respuesta) {
 		case 1:
 			System.out.println("Videojuego en blanco o con menos de 3 letras");
 			break;
@@ -112,8 +133,7 @@ public class InterfazUsuario {
 		}
 		
 		
-		
-		*/
+	
 		
 	}
 
