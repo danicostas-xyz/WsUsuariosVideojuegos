@@ -102,7 +102,11 @@ public class GestorVideojuego {
 		}
 		
 	}
-	public ArrayList mostrar() {
+	/**
+	 * Metodo que muestra un arrayList de de videojuegos
+	 * @return arrayList de videojuegos
+	 */
+	public ArrayList<Videojuego> mostrar() {
 		ArrayList<Videojuego> lista = null;
 		try {
 			lista = dvf.getListaVideojuegos();
