@@ -11,7 +11,7 @@ import java.security.NoSuchAlgorithmException;
 
 import modelo.entidad.Usuario;
 
-public class DaoUsuarioFichero {
+public class DaoUsuarioFichero implements IDaoUsuario{
 	private static final String NOMBRE_FICHERO = "usuarios.dat";
 
 	/**

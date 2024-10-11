@@ -5,9 +5,14 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import modelo.entidad.Videojuego;
 
+/**
+ * Clase que implementa la interfaz IDaoVideojuego para persistir datos. Esta
+ * implementación persiste los datos en un fichero .txt
+ */
 public class DaoVideojuegoFichero implements IDaoVideojuego {
 
 	public static final String NOMBRE_FICHERO = "videojuegos.txt";
@@ -25,15 +30,7 @@ public class DaoVideojuegoFichero implements IDaoVideojuego {
 		if (!f.exists()) {
 			throw new Exception("Error con fichero. Inténtelo de nuevo más tarde");
 		}
-
-		try (FileWriter fw = new FileWriter(NOMBRE_FICHERO, true); BufferedWriter bw = new BufferedWriter(fw)) {
-
-			bw.write(vj.toString());
-			bw.newLine();
-		} catch (Exception e) {
-			throw e;
-		}
-
+		escribir(vj);
 	}
 
 	/**
@@ -49,24 +46,20 @@ public class DaoVideojuegoFichero implements IDaoVideojuego {
 		try (FileReader fr = new FileReader(NOMBRE_FICHERO); BufferedReader br = new BufferedReader(fr)) {
 
 			ArrayList<Videojuego> listaVideojuegos = new ArrayList<Videojuego>();
-
 			String linea = br.readLine();
 
 			while (linea != null) {
 
 				Videojuego vj = new Videojuego();
-
 				vj.setNombre(linea.split("_")[0]);
 				vj.setCompania(linea.split("_")[1]);
 				vj.setNota(Integer.parseInt(linea.split("_")[2]));
-
 				listaVideojuegos.add(vj);
-
+				
 				linea = br.readLine();
 			}
-
 			return listaVideojuegos;
-
+			
 		} catch (Exception e) {
 			throw e;
 		}
@@ -83,26 +76,27 @@ public class DaoVideojuegoFichero implements IDaoVideojuego {
 	 * @throws Exception, en caso de que haya algún problema en el fichero de
 	 *                    entrada salida
 	 */
-	public Videojuego getByName(String nombre) throws Exception {
+	public Videojuego getByName(String nombreVideojuego) throws Exception {
 		Videojuego vj = null;
 
 		try (FileReader fr = new FileReader(NOMBRE_FICHERO); BufferedReader br = new BufferedReader(fr)) {
-			String cadena = br.readLine();// NOMBRE_COMPANIA_NOTA
-			while (cadena != null) {
-				if (nombre.equals(cadena.split("_")[0])) {
+			String linea = br.readLine(); // linea = "NOMBRE_COMPANIA_NOTA"
+			while (linea != null) {
+				if (nombreVideojuego.equals(linea.split("_")[0])) {
 					vj = new Videojuego();
-					vj.setNombre(cadena.split("_")[0]);
-					vj.setCompania(cadena.split("_")[1]);
-					vj.setNota(Integer.parseInt(cadena.split("_")[2]));
+					vj.setNombre(linea.split("_")[0]);
+					vj.setCompania(linea.split("_")[1]);
+					vj.setNota(Integer.parseInt(linea.split("_")[2]));
 
 					return vj;
 				}
-				cadena = br.readLine();
+				linea = br.readLine();
 			}
-			return null;
+
 		} catch (Exception e) {
 			throw e;
 		}
+		return vj; // Si llega hasta aquí, es que vj = null (no se encontró el videojuego)
 	}
 
 	/**
@@ -115,7 +109,8 @@ public class DaoVideojuegoFichero implements IDaoVideojuego {
 	 *         <li><b>true</b> en caso de que el Videojuego exista y se borre</li>
 	 *         <li><b>false</b> en caso de que no se borre porque no exista</li>
 	 *         </ul>
-	 * @throws Exception en caso de que ocurra algún error con el fichero
+	 * @throws Exception en caso de que ocurra algún error de lectura/escritura con
+	 *                   el fichero
 	 * 
 	 */
 	@Override
@@ -124,6 +119,13 @@ public class DaoVideojuegoFichero implements IDaoVideojuego {
 		ArrayList<Videojuego> listaVideojuegos = getListaVideojuegos();
 		ArrayList<Videojuego> listaVideojuegosModificada = listaVideojuegos;
 
+		/*
+		 * listaVideojuegosModificada.remove() modifica la lista en la cual se invoca el
+		 * método y elimina la primera ocurrencia del Videojuego pasado por parámetro.
+		 * Además, devuelve un boolean. True en caso de que se haya encontrado el objeto
+		 * pasado por parámetro y se haya borrado o False en caso contrario
+		 * 
+		 */
 		boolean resultado = listaVideojuegosModificada.remove(videojuegoABorrar);
 
 		File f = new File(NOMBRE_FICHERO);
@@ -134,21 +136,29 @@ public class DaoVideojuegoFichero implements IDaoVideojuego {
 			} else {
 				f.delete();
 				for (Videojuego vj : listaVideojuegosModificada) {
-
-					try (FileWriter fw = new FileWriter(NOMBRE_FICHERO, true);
-							BufferedWriter bw = new BufferedWriter(fw)) {
-
-						bw.write(vj.toString());
-						bw.newLine();
-					} catch (Exception e) {
-						throw e;
-					}
+					escribir(vj);
 				}
 			}
 		}
 
 		return resultado;
 
+	}
+
+	/**
+	 * Método privado que accede al fichero para escribir, en una línea, un
+	 * Videojuego pasado por parámetro.
+	 * 
+	 * @param <b>v</b> El Videojuego a escribir en fichero.
+	 * @throws IOException En caso de que arroje excepción por algún problema en la
+	 *                     comunicación con el fichero
+	 */
+	private void escribir(Videojuego v) throws IOException {
+		try (FileWriter fw = new FileWriter(NOMBRE_FICHERO, true); BufferedWriter bw = new BufferedWriter(fw)) {
+
+			bw.write(v.toString());
+			bw.newLine();
+		}
 	}
 
 }
