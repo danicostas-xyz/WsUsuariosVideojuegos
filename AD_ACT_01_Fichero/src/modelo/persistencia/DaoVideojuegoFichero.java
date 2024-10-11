@@ -55,11 +55,11 @@ public class DaoVideojuegoFichero implements IDaoVideojuego {
 				vj.setCompania(linea.split("_")[1]);
 				vj.setNota(Integer.parseInt(linea.split("_")[2]));
 				listaVideojuegos.add(vj);
-				
+
 				linea = br.readLine();
 			}
 			return listaVideojuegos;
-			
+
 		} catch (Exception e) {
 			throw e;
 		}
@@ -101,12 +101,17 @@ public class DaoVideojuegoFichero implements IDaoVideojuego {
 
 	/**
 	 * Método que dado un Videojuego pasado por parámetro, lo busca en la
-	 * persistencia y, en caso de que exista, lo elimina.
+	 * persistencia y, en caso de que exista, elimina la primera ocurrencia o todas
+	 * las ocurrencias, dependiendo del valor booleano de borrarTodos
 	 * 
-	 * @param videojuegoABorrar el Videojuego a buscar en fichero
+	 * @param videojuegoABorrar el Videojuego a buscar en fichero, borrarTodos la
+	 *                          opción a elegir: si es true, se borran todas las
+	 *                          ocurrencias del Videojuego a buscar. Si es false, se
+	 *                          elimina la primera ocurrencia.
 	 * @return
 	 *         <ul>
-	 *         <li><b>true</b> en caso de que el Videojuego exista y se borre</li>
+	 *         <li><b>true</b> en caso de que el Videojuego exista y se borre al
+	 *         menos una vez</li>
 	 *         <li><b>false</b> en caso de que no se borre porque no exista</li>
 	 *         </ul>
 	 * @throws Exception en caso de que ocurra algún error de lectura/escritura con
@@ -114,10 +119,10 @@ public class DaoVideojuegoFichero implements IDaoVideojuego {
 	 * 
 	 */
 	@Override
-	public boolean borrarVideojuego(Videojuego videojuegoABorrar) throws Exception {
+	public boolean borrarVideojuego(Videojuego videojuegoABorrar, boolean borrarTodos) throws Exception {
 
 		ArrayList<Videojuego> listaVideojuegos = getListaVideojuegos();
-		ArrayList<Videojuego> listaVideojuegosModificada = listaVideojuegos;
+		ArrayList<Videojuego> listaVideojuegosModificada = getListaVideojuegos();
 
 		/*
 		 * listaVideojuegosModificada.remove() modifica la lista en la cual se invoca el
@@ -126,11 +131,32 @@ public class DaoVideojuegoFichero implements IDaoVideojuego {
 		 * pasado por parámetro y se haya borrado o False en caso contrario
 		 * 
 		 */
-		boolean resultado = listaVideojuegosModificada.remove(videojuegoABorrar);
+
+		// Si borrarTodos es true, se aumenta el valor de i tantas veces como
+		// listavideojuegos.remove() sea true.
+		// listavideojuegos.remove() es true si el juego existe. Cada vez que se invoca
+		// el remove(), se borra la primera ocurrencia
+
+		// Si borrarTodos es false, se aumenta el valor de i a 1
+		int i = 0;
+		if (borrarTodos) {
+			while (listaVideojuegos.remove(videojuegoABorrar)) {
+				i++;
+			}
+		} else
+			i = 1;
+
+		boolean vjEsBorrado = false;
+
+		// Bucle que ejecuta listaVideojuegosModificada.remove() i veces, en función del
+		// resultado obtenido arriba
+		for (int j = 0; j < i; j++) {
+			vjEsBorrado = listaVideojuegosModificada.remove(videojuegoABorrar);
+		}
 
 		File f = new File(NOMBRE_FICHERO);
 
-		if (resultado) {
+		if (vjEsBorrado) {
 			if (!f.exists()) {
 				throw new Exception("Error con fichero. Inténtelo de nuevo más tarde");
 			} else {
@@ -141,7 +167,7 @@ public class DaoVideojuegoFichero implements IDaoVideojuego {
 			}
 		}
 
-		return resultado;
+		return vjEsBorrado;
 
 	}
 
