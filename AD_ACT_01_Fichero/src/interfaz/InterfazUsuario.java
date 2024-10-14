@@ -267,11 +267,11 @@ public class InterfazUsuario {
 			break;
 		}
 	}
-<<<<<<< HEAD
+
 	
 	
 
-=======
+
 /**
  * Metodo que muestra un menú y devuelve un entero. El metodo muestra 
  * el siguiente menú.
@@ -286,7 +286,7 @@ public class InterfazUsuario {
  * 
  * @return opcion, numero entero 
  */
->>>>>>> guille
+
 	private int menu() {
 		boolean correcto = false;
 		String opcion = null;
