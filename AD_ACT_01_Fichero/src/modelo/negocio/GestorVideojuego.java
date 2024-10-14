@@ -101,7 +101,7 @@ public class GestorVideojuego {
 		try {
 			
 			if(validar(v) == 1) {
-				dvf.borrarVideojuego(v);
+				dvf.borrarVideojuego(v, false);
 				return 1;
 			}else if(validar(v) == 2) {
 				return 2;
