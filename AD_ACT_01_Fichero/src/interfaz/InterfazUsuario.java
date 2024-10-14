@@ -179,6 +179,8 @@ public class InterfazUsuario {
 			break;
 		}
 	}
+	
+	
 
 	private int menu() {
 		boolean correcto = false;

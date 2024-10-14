@@ -33,8 +33,8 @@ public class GestorVideojuego {
 				return 1;
 			} else if (v.getCompania().isBlank() || v.getCompania().length() < 5) {
 				return 2;	
-			} else if (v.getNota() < 0 || v.getNota() > 100) {
-				return 3;
+			} else if (!esNumeroValido(String.valueOf(v.getNota())) || v.getNota() < 0 || v.getNota() > 100) {
+		        return 3;  // Nota inválida
 			}else {
 				dvf.registrar(v);
 				return 4;
@@ -42,6 +42,18 @@ public class GestorVideojuego {
 		} catch (Exception e) {
 			return 666;
 		}
+	}
+	
+	public boolean esNumeroValido(String str) {
+	    if (str == null || str.isBlank()) {
+	        return false;  // Si la cadena está vacía o en blanco, es inválida
+	    }
+	    try {
+	        Integer.parseInt(str);  // Intenta convertir la cadena a un entero
+	        return true;  // Si no lanza excepción, es un número válido
+	    } catch (NumberFormatException e) {
+	        return false;  // Si ocurre una excepción, la cadena no es un número válido
+	    }
 	}
 	
 	/**
