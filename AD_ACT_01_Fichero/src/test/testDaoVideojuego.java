@@ -1,16 +1,10 @@
 
 package test;
-
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -27,7 +21,6 @@ class testDaoVideojuego {
 	
 	 private static final String ARCHIVO_PRUEBAS = "videojuegos_prueba.txt";
 	 private DaoVideojuegoFichero dao;
-	 private Videojuego vj;
 	 
 	    @BeforeEach
 	    public void setUp() throws IOException {
@@ -90,10 +83,6 @@ class testDaoVideojuego {
 	        assertNull(resultado); 
 	    }
 
-	   
-	    
-	  
-	   
 	    private void crearArchivoPrueba(String contenido) throws IOException {
 	        try (FileWriter writer = new FileWriter(ARCHIVO_PRUEBAS)) {
 	            writer.write(contenido);
