@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -30,17 +31,18 @@ class testDaoVideojuego {
 	    @AfterEach
 	    public void tearDown() throws IOException {
 	        // Elimina el archivo de pruebas después de cada prueba
-	        new File(ARCHIVO_PRUEBAS).delete();
+	       
 	    }
 
 	    @Test
 	    public void testGetByName_videojuegoEncontrado() throws Exception {
 	        // Crea un archivo de prueba con el videojuego
-	        crearArchivoPrueba("Pokemon_Nintendo_100");
-	        dao = new DaoVideojuegoFichero();
-	        Videojuego resultado = dao.getByName("Pokemon_Nintendo_100");
+	        //crearArchivoPrueba("Pokemon_Nintendo_100");
+	        //dao = new DaoVideojuegoFichero();
+	        Videojuego resultado = dao.getByName("Pokemon");
+	        String nombre = resultado.getNombre();
 
-	        assertEquals("Pokemon", resultado.getNombre());
+	        assertEquals("Pokemon", nombre);
 	        assertEquals("Nintendo", resultado.getCompania());
 	        assertEquals(100, resultado.getNota());
 	    }
@@ -84,7 +86,8 @@ class testDaoVideojuego {
 	    }
 
 	    private void crearArchivoPrueba(String contenido) throws IOException {
-	        try (FileWriter writer = new FileWriter(ARCHIVO_PRUEBAS)) {
+	    	try (FileWriter writer = new FileWriter(ARCHIVO_PRUEBAS, true); BufferedWriter bw = new BufferedWriter(writer)) {
+				bw.newLine();
 	            writer.write(contenido);
 	        }
 	    }

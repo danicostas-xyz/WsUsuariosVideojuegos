@@ -13,3 +13,14 @@ El modelo de negocio se va encargar de avisar el borrado del videogame y los req
 numero de letras, espacios en blanco...
 
 Interfaz tendrá que ser modificada.
+
+
+
+OBSERVACIONES:
+
+El metodo esNumeroValido en GestorVideojuego, deberia ser privado.
+
+El metodo borrar, en la documentación devuelve 0 si el videojuego no existe, pero en el codigo, devuelve 0 si el 
+objeto pasado por parametro es null.
+
+
