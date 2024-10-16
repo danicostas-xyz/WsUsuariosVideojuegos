@@ -1,5 +1,5 @@
 
-package test;
+package pruebasUnitarias;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -16,7 +16,7 @@ import modelo.entidad.Videojuego;
 import modelo.persistencia.DaoVideojuegoFichero;
 
 
-class testDaoVideojuego {
+class TestDaoVideojuegoCarlos {
 	
 	
 	 private static final String ARCHIVO_PRUEBAS = "videojuegos_prueba.txt";
