@@ -20,7 +20,7 @@ import org.junit.jupiter.api.Test;
 import modelo.entidad.Videojuego;
 import modelo.persistencia.DaoVideojuegoFichero;
 
-class testDaoVideojuego {
+class TestDaoVideojuego {
 	
 	
     @BeforeEach
