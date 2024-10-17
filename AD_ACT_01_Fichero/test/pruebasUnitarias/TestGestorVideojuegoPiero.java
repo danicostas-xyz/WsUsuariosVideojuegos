@@ -1,5 +1,4 @@
-package test;
-
+package pruebasUnitarias;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.AfterEach;
@@ -9,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import modelo.entidad.Videojuego;
 import modelo.negocio.GestorVideojuego;
 
-class TestGestorVideojuego {
+class TestGestorVideojuegoPiero {
 	
 	private GestorVideojuego gv;
 	private Videojuego vd;
@@ -109,9 +108,9 @@ class TestGestorVideojuego {
 	
 	@Test
 	void testValidarExisteYValido() {
-		vd.setNombre("Mariokar");
-		vd.setCompania("Nintendo switch");
-		vd.setNota(99);
+		vd.setNombre("Pokemon");
+		vd.setCompania("Nintendo");
+		vd.setNota(100);
 		
 		int resultadoEsperado = 1;
 		int resultadoObtenido = gv.validar(vd);
@@ -162,15 +161,17 @@ class TestGestorVideojuego {
 	
 	@Test
 	void testBorrarExiste() {
-		vd.setNombre("Mariokar");
-		vd.setCompania("Nintendo switch");
-		vd.setNota(99);
+		vd.setNombre("Pokemon");
+		vd.setCompania("Nintendo");
+		vd.setNota(100);
 		
 		int resultadoEsperado = 1;
 		int resultadoObtenido = gv.borrar(vd);
 		
 		assertEquals(resultadoEsperado, resultadoObtenido);
 	}
+	
+	
 	
 	
 	
