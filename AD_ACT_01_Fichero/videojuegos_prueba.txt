@@ -38,3 +38,6 @@ Pokemon/Nintendo
 Uncharted_Sony_90
 
 Pokemon_Nintendo
+Uncharted_Sony_90
+
+Pokemon/Nintendo

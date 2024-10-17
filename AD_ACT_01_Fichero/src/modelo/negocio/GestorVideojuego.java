@@ -27,7 +27,7 @@ public class GestorVideojuego {
 			return 0;
 		}
 
-		dvf = new DaoVideojuegoFichero();
+		dvf = new DaoVideojuegoFichero(DaoVideojuegoFichero.FICHERO);
 		try {
 			if (v.getNombre().isBlank() || v.getNombre().length() < 3) {
 				return 1;
@@ -67,7 +67,7 @@ public class GestorVideojuego {
 	 *         caso de que haya algún problema en el de entrada salida
 	 */
 	public int validar(Videojuego v) {
-		dvf = new DaoVideojuegoFichero();
+		dvf = new DaoVideojuegoFichero(DaoVideojuegoFichero.FICHERO);
 		try {
 			Videojuego vFichero = dvf.getByName(v.getNombre());
 			if (vFichero == null) {
@@ -97,7 +97,7 @@ public class GestorVideojuego {
 			return 0;
 		}
 		
-		dvf = new DaoVideojuegoFichero();
+		dvf = new DaoVideojuegoFichero(DaoVideojuegoFichero.FICHERO);
 		try {
 			
 			if(validar(v) == 1) {
@@ -119,7 +119,7 @@ public class GestorVideojuego {
 	 * @return arrayList de videojuegos
 	 */
 	public ArrayList<Videojuego> mostrar() {
-		dvf = new DaoVideojuegoFichero();
+		dvf = new DaoVideojuegoFichero(DaoVideojuegoFichero.FICHERO);
 		ArrayList<Videojuego> lista = null;
 		try {
 			lista = dvf.getListaVideojuegos();

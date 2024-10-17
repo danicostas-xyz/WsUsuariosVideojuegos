@@ -14,8 +14,23 @@ import modelo.entidad.Videojuego;
  * implementación persiste los datos en un fichero .txt
  */
 public class DaoVideojuegoFichero implements IDaoVideojuego {
+	
+	public static final String FICHERO = "videojuegos.txt";
 
-	public static final String NOMBRE_FICHERO = "videojuegos.txt";
+	private String nombreFichero;
+
+	public String getNombreFichero() {
+		return nombreFichero;
+	}
+	
+	public void setNombreFichero(String nombreFichero) {
+		this.nombreFichero = nombreFichero; 
+	}
+ 
+	public DaoVideojuegoFichero(String nombreFichero) {
+		super();
+		this.nombreFichero = nombreFichero;
+	}
 
 	/**
 	 * Método que registra un videojuego en la persistencia
@@ -26,7 +41,7 @@ public class DaoVideojuegoFichero implements IDaoVideojuego {
 	@Override
 	public void registrar(Videojuego vj) throws Exception {
 
-		File f = new File(NOMBRE_FICHERO);
+		File f = new File(nombreFichero);
 		if (!f.exists()) {
 			throw new Exception("Error con fichero. Inténtelo de nuevo más tarde");
 		}
@@ -43,7 +58,7 @@ public class DaoVideojuegoFichero implements IDaoVideojuego {
 	@Override
 	public ArrayList<Videojuego> getListaVideojuegos() throws Exception {
 
-		try (FileReader fr = new FileReader(NOMBRE_FICHERO); BufferedReader br = new BufferedReader(fr)) {
+		try (FileReader fr = new FileReader(nombreFichero); BufferedReader br = new BufferedReader(fr)) {
 
 			ArrayList<Videojuego> listaVideojuegos = new ArrayList<Videojuego>();
 			String linea = br.readLine();
@@ -79,7 +94,7 @@ public class DaoVideojuegoFichero implements IDaoVideojuego {
 	public Videojuego getByName(String nombreVideojuego) throws Exception {
 		Videojuego vj = null;
 
-		try (FileReader fr = new FileReader(NOMBRE_FICHERO); BufferedReader br = new BufferedReader(fr)) {
+		try (FileReader fr = new FileReader(nombreFichero); BufferedReader br = new BufferedReader(fr)) {
 			String linea = br.readLine(); // linea = "NOMBRE_COMPANIA_NOTA"
 			while (linea != null) {
 				if (nombreVideojuego.equals(linea.split("_")[0])) {
@@ -154,7 +169,7 @@ public class DaoVideojuegoFichero implements IDaoVideojuego {
 			vjEsBorrado = listaVideojuegosModificada.remove(videojuegoABorrar);
 		}
 
-		File f = new File(NOMBRE_FICHERO);
+		File f = new File(nombreFichero);
 
 		if (vjEsBorrado) {
 			if (!f.exists()) {
@@ -180,7 +195,7 @@ public class DaoVideojuegoFichero implements IDaoVideojuego {
 	 *                     comunicación con el fichero
 	 */
 	private void escribir(Videojuego v) throws IOException {
-		try (FileWriter fw = new FileWriter(NOMBRE_FICHERO, true); BufferedWriter bw = new BufferedWriter(fw)) {
+		try (FileWriter fw = new FileWriter(nombreFichero, true); BufferedWriter bw = new BufferedWriter(fw)) {
 
 			bw.write(v.toString());
 			bw.newLine();
