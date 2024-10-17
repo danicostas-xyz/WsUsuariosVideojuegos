@@ -4,6 +4,8 @@ package pruebasUnitarias;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows; // Importa assertThrows
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.Test; // Importa Test de JUnit 5
 
 import java.io.BufferedWriter;
@@ -11,6 +13,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,12 +28,12 @@ class TestDaoVideojuegoDani {
 	private DaoVideojuegoFichero dao;
 
 	@BeforeEach
-	public void setUp() throws IOException {
+	void setUp() throws IOException {
 		dao = new DaoVideojuegoFichero(ARCHIVO_PRUEBAS);
 	}
 
 	@Test
-	public void testGetByName_videojuegoEncontrado() throws Exception {
+	void testGetByName_videojuegoEncontrado() throws Exception {
 		Videojuego vj = new Videojuego();
 		vj.setNombre("Pokemon");
 		vj.setCompania("Nintendo");
@@ -41,13 +44,13 @@ class TestDaoVideojuegoDani {
 	}
 
 	@Test
-	public void testGetByName_videojuegoNoEncontrado() throws Exception {
+	void testGetByName_videojuegoNoEncontrado() throws Exception {
 		Videojuego resultado = dao.getByName("Fifa");
 		assertNull(resultado);
 	}
 
 	@Test
-	public void testGetByName_archivoVacio() throws Exception {
+	void testGetByName_archivoVacio() throws Exception {
 		// Crea un archivo de prueba vacÌo
 		dao = new DaoVideojuegoFichero("vacio.txt");
 		Videojuego resultado = dao.getByName("Uncharted_Sony_90");
@@ -55,7 +58,7 @@ class TestDaoVideojuegoDani {
 	}
 
 	@Test
-	public void testGetByName_archivoNoExiste() throws Exception {
+	void testGetByName_archivoNoExiste() throws Exception {
 		// Intenta buscar en un archivo que no existe
 		dao = new DaoVideojuegoFichero("archivoInexistente");
 
@@ -63,12 +66,53 @@ class TestDaoVideojuegoDani {
 			dao.getByName("PokemonNintendo100");
 		});
 	}
+	
+	@Test
+	void testGetNombreFichero() {
+		String resultadoObtenido = dao.getNombreFichero();
+		assertEquals(resultadoObtenido, ARCHIVO_PRUEBAS);
+	}
+	
+	@Test
+	void testSetNombreFichero() {
+		String nombre = "fichero";
+		dao.setNombreFichero(nombre);
+		assertTrue(dao.getNombreFichero() == nombre);
+	}
+	
+	@Test
+	void testGetListaVideojuegosConFicheroNoEncontrado() throws Exception {
+		dao = new DaoVideojuegoFichero("fic");
+		assertThrows(FileNotFoundException.class, () -> {
+			dao.getListaVideojuegos();
+		});
 
-//	    private void crearArchivoPrueba(String contenido) throws IOException {
-//	    	try (FileWriter writer = new FileWriter(ARCHIVO_PRUEBAS, true); BufferedWriter bw = new BufferedWriter(writer)) {
-//				bw.newLine();
-//	            writer.write(contenido);
-//	        }
-//	    }
+	}
+	
+	@Test
+	void testGetListaVideojuegosConFicheroVacio()throws Exception{
+		// Esta prueba es muy facil solo hay que ejecutar el metodo 
+		// y nos tendra que decir que la cadena esta vac√≠a
+		dao = new DaoVideojuegoFichero("vacio.txt");
+		ArrayList<Videojuego> listaVideojuegos = dao.getListaVideojuegos();
+		assertTrue(listaVideojuegos.isEmpty());	
+	}
+	
+	@Test
+	void testGetListaVideojuegosConContenidoCorrecto() throws Exception{
+		
+		dao = new DaoVideojuegoFichero("videojuegos_prueba3");
+
+		ArrayList<Videojuego>listaVideojuego = dao.getListaVideojuegos();
+		
+		assertTrue(listaVideojuego.size() > 0);
+		
+	
+			
+		
+	}
+	
+	
+	
 
 }
