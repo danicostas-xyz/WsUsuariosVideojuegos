@@ -20,7 +20,7 @@ import org.junit.jupiter.api.Test;
 import modelo.entidad.Videojuego;
 import modelo.persistencia.DaoVideojuegoFichero;
 
-class TestDaoVideojuego {
+class TestDaoVideojuegoGuille {
 	
 	
     @BeforeEach
@@ -44,7 +44,7 @@ class TestDaoVideojuego {
 		File file = new File("Videojuegos");
 		//Borramos el fichero para que nos salte el error
 		file.delete();
-		DaoVideojuegoFichero dvf = new DaoVideojuegoFichero();
+		DaoVideojuegoFichero dvf = new DaoVideojuegoFichero("Videojuegos_prueba_guille");
 		Videojuego vj = new Videojuego();
 		vj.setCompania("Nintendo");
 		vj.setNombre("Pokemon");
@@ -64,7 +64,7 @@ class TestDaoVideojuego {
 		// Creamos el fichero videojuegos
 		File file = new File("Videojuegos");
 		// Creamos la clase para poder invocar el método
-		DaoVideojuegoFichero dvf = new DaoVideojuegoFichero();
+		DaoVideojuegoFichero dvf = new DaoVideojuegoFichero("Videojuegos_prueba_guille");
 		// Creamos el objeto Videojuego y le establecemos unos valores
 		Videojuego vj = new Videojuego();
 		vj.setCompania("Nintendo");
@@ -73,7 +73,7 @@ class TestDaoVideojuego {
 		// Aplicamos el metodo registra
 		dvf.registrar(vj);
 		// Ahora lo que hacemos es leer el fichero y comprobar si son iguales los resultados
-	    try (BufferedReader br = new BufferedReader(new FileReader("Videojuegos"))) {
+	    try (BufferedReader br = new BufferedReader(new FileReader("Videojuegos_prueba_guille"))) {
 	            String linea = br.readLine();
 	            assertNotNull(linea);
 	            assertEquals("Pokemon_Nintendo_100", linea);
@@ -82,13 +82,13 @@ class TestDaoVideojuego {
 	}
 	@Test
 	void testGetListaVideojuegosConContenidoCorrecto() throws Exception{
-		try (BufferedWriter bw = new BufferedWriter(new FileWriter("Videojuegos"))) {
+		try (BufferedWriter bw = new BufferedWriter(new FileWriter("Videojuegos_prueba_guille"))) {
 			bw.write("Pokemon_Nintendo_100");
 			
 			
 		}
 		// Ejecutamos el método
-		DaoVideojuegoFichero dvf = new DaoVideojuegoFichero();
+		DaoVideojuegoFichero dvf = new DaoVideojuegoFichero("Videojuegos_prueba_guille");
 		ArrayList<Videojuego>listaVideojuego= dvf.getListaVideojuegos();
 		// Comprobamos si son esta bien la lista generada
 		assertEquals(2, listaVideojuego.size());
@@ -100,13 +100,13 @@ class TestDaoVideojuego {
 	}
 	@Test
 	void testGetListaVideojuegosConFormatoIncorrecto()throws Exception{
-		try (BufferedWriter bw = new BufferedWriter(new FileWriter("Videojuegos"))) {
+		try (BufferedWriter bw = new BufferedWriter(new FileWriter("Videojuegos_prueba_guille"))) {
 			bw.write("Pokemon_Nintendo_100");
 			bw.write("Pokemon/Nintendo/100");
 			
 		}
 		// Probamos que se lanza la excepcion
-		DaoVideojuegoFichero dvf = new DaoVideojuegoFichero();
+		DaoVideojuegoFichero dvf = new DaoVideojuegoFichero("Videojuegos_prueba_guille");
 		Exception excepcion = assertThrows(Exception.class, ()->{
 			dvf.getListaVideojuegos();
 		});
@@ -117,7 +117,7 @@ class TestDaoVideojuego {
 	void testGetListaVideojuegosConFicheroVacio()throws Exception{
 		// Esta prueba es muy facil solo hay que ejecutar el metodo 
 		// y nos tendra que decir que la cadena esta vacía
-		DaoVideojuegoFichero dvf = new DaoVideojuegoFichero();
+		DaoVideojuegoFichero dvf = new DaoVideojuegoFichero("Videojuegos_prueba_guille");
 		ArrayList<Videojuego> listaVideojuegos = dvf.getListaVideojuegos();
 		assertTrue(listaVideojuegos.isEmpty());
 		
@@ -127,7 +127,7 @@ class TestDaoVideojuego {
 	void testGetListaVideojuegosConFicheroNoEncontrado() throws Exception {
 		File file = new File("Videojuego");
 		file.delete();
-		DaoVideojuegoFichero dvf = new DaoVideojuegoFichero();
+		DaoVideojuegoFichero dvf = new DaoVideojuegoFichero("Videojuegos_prueba_guille");
 		assertThrows(FileNotFoundException.class, () -> {
 			dvf.getListaVideojuegos();
 		});

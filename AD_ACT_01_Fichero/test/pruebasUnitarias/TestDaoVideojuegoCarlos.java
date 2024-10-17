@@ -25,7 +25,7 @@ class TestDaoVideojuegoCarlos {
 	 
 	    @BeforeEach
 	    public void setUp() throws IOException {
-	    	dao = new DaoVideojuegoFichero();
+	    	dao = new DaoVideojuegoFichero(DaoVideojuegoFichero.FICHERO);
 	    }
 
 	    @AfterEach
@@ -51,7 +51,7 @@ class TestDaoVideojuegoCarlos {
 	    public void testGetByName_videojuegoNoEncontrado() throws Exception {
 	        // Crea un archivo de prueba sin el videojuego
 	        crearArchivoPrueba("Uncharted_Sony_90");
-	        dao = new DaoVideojuegoFichero();
+	        dao = new DaoVideojuegoFichero(DaoVideojuegoFichero.FICHERO);
 	        Videojuego resultado = dao.getByName("Pokemon_Nintendo_100");
 
 	        assertNull(resultado);
@@ -61,7 +61,7 @@ class TestDaoVideojuegoCarlos {
 	    public void testGetByName_archivoVacio() throws Exception {
 	        // Crea un archivo de prueba vacío
 	        crearArchivoPrueba("");
-	        dao = new DaoVideojuegoFichero();
+	        dao = new DaoVideojuegoFichero(DaoVideojuegoFichero.FICHERO);
 	        Videojuego resultado = dao.getByName("Uncharted_Sony_90");
 
 	        assertNull(resultado);
@@ -70,7 +70,7 @@ class TestDaoVideojuegoCarlos {
 	    @Test
 	    public void testGetByName_formatoInvalido() throws Exception {
 	        // Crea un archivo de prueba con formato inválido
-	    	dao = new DaoVideojuegoFichero();
+	    	dao = new DaoVideojuegoFichero(DaoVideojuegoFichero.FICHERO);
 	        crearArchivoPrueba("Pokemon/Nintendo");
 
 	        assertThrows(NumberFormatException.class, () -> dao.getByName("Pokemon_Nintendo_100"));
@@ -79,7 +79,7 @@ class TestDaoVideojuegoCarlos {
 	    @Test
 	    public void testGetByName_archivoNoExiste() throws Exception {
 	        // Intenta buscar en un archivo que no existe
-	    	dao = new DaoVideojuegoFichero();
+	    	dao = new DaoVideojuegoFichero(DaoVideojuegoFichero.FICHERO);
 	        Videojuego resultado = dao.getByName("PokemonNintendo100");
 
 	        assertNull(resultado); 
