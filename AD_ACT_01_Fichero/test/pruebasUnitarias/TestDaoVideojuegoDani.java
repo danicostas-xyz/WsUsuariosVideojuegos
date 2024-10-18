@@ -1,6 +1,8 @@
 
 package pruebasUnitarias;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.fail;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows; // Importa assertThrows
@@ -127,8 +129,7 @@ class TestDaoVideojuegoDani {
 	void testGetListaVideojuegosConContenidoCorrecto() throws Exception {
 		dao = new DaoVideojuegoFichero(ARCHIVO_PRUEBAS);
 		ArrayList<Videojuego> listaVideojuego = dao.getListaVideojuegos();
-		assertTrue(listaVideojuego.size() > 0);
-
+	    assertTrue(listaVideojuego.size() > 0);
 	}
 	
 	
