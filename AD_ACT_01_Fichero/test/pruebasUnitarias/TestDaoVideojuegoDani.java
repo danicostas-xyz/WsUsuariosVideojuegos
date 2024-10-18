@@ -133,6 +133,79 @@ class TestDaoVideojuegoDani {
 	}
 	
 	
+	@Test
+	void testBorrarUnaOcurrenciaVideojuego() throws Exception {
+		Videojuego vj = new Videojuego();
+		vj.setNombre("Fifa 2005");
+		vj.setCompania("EA Sports");
+		vj.setNota(79);
+		
+		dao = new DaoVideojuegoFichero(ARCHIVO_PRUEBAS);
+		
+		dao.registrar(vj);
+		
+		vj = new Videojuego();
+		vj.setNombre("Fifa 2005");
+		vj.setCompania("EA Sports");
+		vj.setNota(79);
+		
+		dao.registrar(vj);
+		
+		assertTrue(dao.borrarVideojuego(vj, false));
+		assertTrue(dao.getByName("Fifa 2005") != null);
+		dao.borrarVideojuego(vj, false);
+		
+	}
+	
+	@Test
+	void testBorrarTodasOcurrenciaVideojuego() throws Exception {
+		Videojuego vj = new Videojuego();
+		vj.setNombre("Fifa 2005");
+		vj.setCompania("EA Sports");
+		vj.setNota(79);
+		
+		dao = new DaoVideojuegoFichero(ARCHIVO_PRUEBAS);
+		
+		dao.registrar(vj);
+		
+		vj = new Videojuego();
+		vj.setNombre("Fifa 2005");
+		vj.setCompania("EA Sports");
+		vj.setNota(79);
+		
+		dao.registrar(vj);
+		
+		assertTrue(dao.borrarVideojuego(vj, true));
+		assertTrue(dao.getByName("Fifa 2005") == null);
+
+	}
+	
+	@Test
+	void testBorrarVideojuegoErrorConFichero() throws Exception {
+		Videojuego vj = new Videojuego();
+		vj.setNombre("Fifa 2005");
+		vj.setCompania("EA Sports");
+		vj.setNota(79);
+		
+		File fichero = new File("fichero");
+		fichero.createNewFile();
+		
+		dao = new DaoVideojuegoFichero("fichero");
+		dao.registrar(vj);
+		
+		dao = new DaoVideojuegoFichero("noExiste");
+		
+		assertThrows(Exception.class, () -> {
+			
+			dao.borrarVideojuego(vj, false);
+		});
+		
+
+
+	}
+	
+	
+	
 	
 
 }
