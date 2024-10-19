@@ -17,6 +17,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -55,6 +56,14 @@ class TestDaoVideojuegoDani {
 		dao.registrar(vjPrueba2);
 		dao.registrar(vjPrueba3);
 	}
+	
+	@AfterAll
+	static void limpiaFicheroPruebas() throws Exception {
+		dao = new DaoVideojuegoFichero(ARCHIVO_PRUEBAS);
+		dao.borrarVideojuego(dao.getByName("Death Stranding"), true);
+		dao.borrarVideojuego(dao.getByName("Doom Eternal"), true);
+		dao.borrarVideojuego(dao.getByName("Mortal Kombat 11"), true);
+	}
 
 	@Test
 	void testGetByName_videojuegoEncontrado() throws Exception {
@@ -69,6 +78,7 @@ class TestDaoVideojuegoDani {
 
 	@Test
 	void testGetByName_videojuegoNoEncontrado() throws Exception {
+		dao = new DaoVideojuegoFichero(ARCHIVO_PRUEBAS);
 		Videojuego resultado = dao.getByName("Fifa");
 		assertNull(resultado);
 	}
@@ -192,8 +202,7 @@ class TestDaoVideojuegoDani {
 		
 		dao = new DaoVideojuegoFichero("fichero");
 		dao.registrar(vj);
-		
-		dao = new DaoVideojuegoFichero("noExiste");
+		fichero.delete();
 		
 		assertThrows(Exception.class, () -> {
 			
@@ -203,6 +212,8 @@ class TestDaoVideojuegoDani {
 
 
 	}
+	
+
 	
 	
 	
