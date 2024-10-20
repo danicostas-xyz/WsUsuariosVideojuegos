@@ -62,5 +62,52 @@ class TestGestorVideojuegoDani {
 		assertTrue(listaVideojuegos.equals(dao.getListaVideojuegos()));
 
 	}
+	
+	@Test
+	void testEsNumeroValidoExcepcion() {
+		GestorVideojuego gv = new GestorVideojuego(ARCHIVO_PRUEBAS);
+		assertFalse(gv.esNumeroValido("k"));
+	}
+	
+	@Test
+	void testEsNumeroValidoCadenaVacia() {
+		GestorVideojuego gv = new GestorVideojuego(ARCHIVO_PRUEBAS);
+		assertFalse(gv.esNumeroValido(""));
+	}
+	
+	@Test
+	void testEsNumeroValidoCadenaNull() {
+		GestorVideojuego gv = new GestorVideojuego(ARCHIVO_PRUEBAS);
+		assertFalse(gv.esNumeroValido(null));
+	}
+	
+	@Test
+	void testBorrarVideojuegoNull() {
+		GestorVideojuego gv = new GestorVideojuego(ARCHIVO_PRUEBAS);
+		Videojuego v = null;
+		assertEquals(gv.borrar(v), 0);
+	}
+	
+	@Test
+	void testBorrarVideojuegoNoValido() {
+		GestorVideojuego gv = new GestorVideojuego(ARCHIVO_PRUEBAS);
+		Videojuego v = new Videojuego();
+		v.setNombre("Death Stranding");
+		v.setCompania("Kojima Productions");
+		v.setNota(98);
+		assertEquals(gv.borrar(v), 2);
+	}
+	
+	@Test
+	void testBorrarVideojuegoExcepcion() {
+		GestorVideojuego gv = new GestorVideojuego("");
+		Videojuego v = new Videojuego();
+		v.setNombre("Death Stranding");
+		v.setCompania("Kojima Productions");
+		v.setNota(99);
+		File f = new File("");
+		f.delete();
+		assertEquals(gv.borrar(v), 666);
+	}
 
 }
